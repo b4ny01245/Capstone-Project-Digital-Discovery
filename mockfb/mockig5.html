@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: #000;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            height: 44px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .instagram-header {
+            height: 60px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid #e6e6e6;
+            z-index: 10;
+        }
+
+        .instagram-logo {
+            font-size: 26px;
+            font-weight: 800;
+            font-family: 'Billabong', cursive;
+            color: #000;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-icons i {
+            font-size: 24px;
+            color: #000;
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            background-color: #fafafa;
+        }
+
+        .stories-container {
+            display: flex;
+            padding: 12px 0;
+            background-color: #fff;
+            border-bottom: 1px solid #e6e6e6;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .stories-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .story {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+        }
+
+        .story-circle {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            padding: 3px;
+            margin-bottom: 5px;
+        }
+
+        .story-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background-color: #e6e6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .story-img i {
+            color: #8e8e8e;
+            font-size: 30px;
+        }
+
+        .story-name {
+            font-size: 12px;
+            color: #000;
+            max-width: 66px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .post-container {
+            background-color: #fff;
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+        }
+
+        .post-profile {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e6e6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .post-profile i {
+            color: #8e8e8e;
+            font-size: 18px;
+        }
+
+        .post-user-info {
+            flex: 1;
+        }
+
+        .post-username {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .post-location {
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+
+        .post-options {
+            color: #000;
+        }
+
+        .post-options i {
+            font-size: 16px;
+        }
+
+        .post-content {
+            position: relative;
+            background-color: #ffccf9; /* Pink background as described */
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .post-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .post-text-overlay {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .post-text-overlay h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .post-text-overlay p {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .post-text-overlay .year {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .action-button.liked {
+            color: #ed4956;
+        }
+
+        .action-button.saved {
+            color: #000;
+        }
+
+        .post-stats {
+            padding: 0 15px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .post-caption {
+            padding: 0 15px;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .post-caption span {
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .post-time {
+            padding: 0 15px;
+            font-size: 12px;
+            color: #8e8e8e;
+            margin-bottom: 15px;
+        }
+
+        .comments-section {
+            display: none;
+            padding: 15px;
+            border-top: 1px solid #e6e6e6;
+            background-color: #fafafa;
+        }
+
+        .comments-section.active {
+            display: block;
+        }
+
+        .comment {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .comment-profile {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e6e6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .comment-profile i {
+            color: #8e8e8e;
+            font-size: 18px;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-username {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .comment-text {
+            font-size: 14px;
+        }
+
+        .comment-time {
+            font-size: 12px;
+            color: #8e8e8e;
+            margin-top: 5px;
+        }
+
+        .add-comment {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e6e6e6;
+        }
+
+        .add-comment input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            padding: 8px 0;
+        }
+
+        .add-comment button {
+            background: none;
+            border: none;
+            color: #0095f6;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background-color: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 100;
+        }
+
+        .bottom-nav {
+            height: 60px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e6e6e6;
+            z-index: 10;
+        }
+
+        .nav-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .nav-item i {
+            font-size: 24px;
+            color: #000;
+        }
+
+        .nav-item.active i {
+            color: #000;
+        }
+
+        .nav-item.create-post {
+            width: 50px;
+            height: 50px;
+            background-color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-item.create-post i {
+            color: #fff;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="notch"></div>
+        <div class="phone-screen">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="instagram-header">
+                <div class="instagram-logo">Instagram</div>
+                <div class="header-icons">
+                    <i class="far fa-heart"></i>
+                    <i class="far fa-paper-plane"></i>
+                </div>
+            </div>
+            <div class="content-area">
+                <div class="stories-container">
+                    <div class="story">
+                        <div class="story-circle">
+                            <div class="story-img">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="story-name">Your Story</div>
+                    </div>
+                    <div class="story">
+                        <div class="story-circle">
+                            <div class="story-img">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="story-name">emma</div>
+                    </div>
+                    <div class="story">
+                        <div class="story-circle">
+                            <div class="story-img">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="story-name">alex</div>
+                    </div>
+                    <div class="story">
+                        <div class="story-circle">
+                            <div class="story-img">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="story-name">sophia</div>
+                    </div>
+                    <div class="story">
+                        <div class="story-circle">
+                            <div class="story-img">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="story-name">michael</div>
+                    </div>
+                    <div class="story">
+                        <div class="story-circle">
+                            <div class="story-img">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="story-name">olivia</div>
+                    </div>
+                </div>
+                
+                <div class="post-container">
+                    <div class="post-header">
+                        <div class="post-profile">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="post-user-info">
+                            <div class="post-username">yannaaatrinidad</div>
+                            <div class="post-location">Tokyo, Japan</div>
+                        </div>
+                        <div class="post-options">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <img class="post-image" src="https://z-cdn-media.chatglm.cn/files/14dcc9ce-3b0f-468f-a73a-b3a901a1a8d9_540077766_1777331926480271_5141440444915726136_n%20%281%29.jpg?auth_key=1788391704-d8147e96a8f045559dfceaf497a35f35-0-3222cd3890d635ac8d6c3c16dcbd62c8" alt="Pink doll with bunny ears">
+                        <div class="post-text-overlay">
+                            <h2>AUGUST</h2>
+                            <p>Monthly Dump</p>
+                            <p>thirty - one days</p>
+                            <div class="year">2025</div>
+                        </div>
+                    </div>
+                    <div class="post-actions">
+                        <div class="action-buttons">
+                            <button class="action-button like-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-button comment-btn">
+                                <i class="far fa-comment"></i>
+                            </button>
+                            <button class="action-button">
+                                <i class="far fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <button class="action-button save-btn">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+                    <div class="post-stats">Liked by _kimeowly and others</div>
+                    <div class="post-caption">
+                        <span>yannaaatrinidad</span> Monthly dump for August! So many memories in thirty-one days.
+                    </div>
+                    <div class="post-time">2 HOURS AGO</div>
+                    <div class="comments-section" id="commentsSection">
+                        <div class="comment">
+                            <div class="comment-profile">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="comment-content">
+                                <div class="comment-username">_kimeowly</div>
+                                <div class="comment-text">Love this pink aesthetic! 🌸</div>
+                                <div class="comment-time">1h</div>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-profile">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="comment-content">
+                                <div class="comment-username">travelbuddy</div>
+                                <div class="comment-text">That doll is so cute! Where did you get it?</div>
+                                <div class="comment-time">45m</div>
+                            </div>
+                        </div>
+                        <div class="add-comment">
+                            <input type="text" placeholder="Add a comment..." id="commentInput">
+                            <button id="postCommentBtn">Post</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <div class="nav-item active">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="nav-item create-post">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="nav-item">
+                    <i class="far fa-compass"></i>
+                </div>
+                <div class="nav-item">
+                    <i class="far fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Like button functionality
+        document.querySelector('.like-btn').addEventListener('click', function() {
+            this.classList.toggle('liked');
+            const icon = this.querySelector('i');
+            
+            if (this.classList.contains('liked')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                
+                // Update like text
+                const postStats = document.querySelector('.post-stats');
+                postStats.textContent = 'Liked by you, _kimeowly and others';
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                
+                // Update like text
+                const postStats = document.querySelector('.post-stats');
+                postStats.textContent = 'Liked by _kimeowly and others';
+            }
+        });
+
+        // Save button functionality
+        document.querySelector('.save-btn').addEventListener('click', function() {
+            this.classList.toggle('saved');
+            const icon = this.querySelector('i');
+            
+            if (this.classList.contains('saved')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
+        });
+
+        // Comment button functionality
+        document.querySelector('.comment-btn').addEventListener('click', function() {
+            const commentsSection = document.getElementById('commentsSection');
+            commentsSection.classList.toggle('active');
+            
+            // Scroll to comments if opened
+            if (commentsSection.classList.contains('active')) {
+                commentsSection.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('commentInput').focus();
+            }
+        });
+
+        // Post comment functionality
+        document.getElementById('postCommentBtn').addEventListener('click', function() {
+            const commentInput = document.getElementById('commentInput');
+            const commentText = commentInput.value.trim();
+            
+            if (commentText) {
+                const newComment = document.createElement('div');
+                newComment.className = 'comment';
+                newComment.innerHTML = `
+                    <div class="comment-profile">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-username">you</div>
+                        <div class="comment-text">${commentText}</div>
+                        <div class="comment-time">Just now</div>
+                    </div>
+                `;
+                
+                const commentsSection = document.getElementById('commentsSection');
+                const addComment = commentsSection.querySelector('.add-comment');
+                commentsSection.insertBefore(newComment, addComment);
+                
+                commentInput.value = '';
+            }
+        });
+
+        // Allow posting comment with Enter key
+        document.getElementById('commentInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('postCommentBtn').click();
+            }
+        });
+
+        // Bottom navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                
+                // Add active class to clicked item (except create post)
+                if (!this.classList.contains('create-post')) {
+                    this.classList.add('active');
+                }
+                
+                // Here you could add functionality to switch between different views
+                // For now, we'll just show an alert for non-home items
+                if (this.querySelector('.fa-search')) {
+                    alert('Search functionality would go here');
+                } else if (this.querySelector('.fa-compass')) {
+                    alert('Explore page would go here');
+                } else if (this.querySelector('.fa-user')) {
+                    alert('Profile page would go here');
+                } else if (this.classList.contains('create-post')) {
+                    alert('Create post functionality would go here');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

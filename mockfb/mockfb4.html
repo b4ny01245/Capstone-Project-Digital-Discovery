@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #1B1B1D;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .screen {
+            background: #fff;
+            border-radius: 30px;
+            width: 100%;
+            height: 100%;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            color: #121d28;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .back-button {
+            font-size: 24px;
+            color: #0d1e2f;
+            margin-bottom: 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            align-self: start;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone">
+        <div class="screen">
+            <div class="status-bar">
+                <span>3:20 PM</span>
+                <span>4G</span>
+                <span>100%</span>
+            </div>
+
+            <a href="mockfb3.html" class="back-button" aria-label="Go back">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            </a>
+
+            <h1 class="text-2xl font-semibold mb-2">Sign up</h1>
+            <p class="text-sm text-gray-600 mb-6">Use your mobile number or email address to create an account.</p>
+
+            <!-- Mobile Form -->
+            <form action="mockfb5.html" method="GET">
+                <div id="mobileForm">
+                    <input type="tel" placeholder="Mobile number" required
+                        class="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 text-base text-[#121d28] focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <button
+                        class="w-full bg-blue-600 text-white py-3 rounded-full text-lg font-medium hover:bg-blue-700 transition mb-4">
+                        Next
+                    </button>
+                    <p class="text-center text-sm text-blue-600 cursor-pointer" onclick="toggleForm('email')">Sign up
+                        with email</p>
+                </div>
+            </form>
+
+            <!-- Email Form -->
+            <form action="mockfb5.html" method="GET">
+                <div id="emailForm" class="hidden">
+                    <input type="email" placeholder="Email address" required
+                        class="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 text-base text-[#121d28] focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <button
+                        class="w-full bg-blue-600 text-white py-3 rounded-full text-lg font-medium hover:bg-blue-700 transition mb-4">
+                        Next
+                    </button>
+                    <p class="text-center text-sm text-blue-600 cursor-pointer" onclick="toggleForm('mobile')">Sign up
+                        with mobile number</p>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleForm(type) {
+            const mobileForm = document.getElementById('mobileForm');
+            const emailForm = document.getElementById('emailForm');
+            if (type === 'email') {
+                mobileForm.classList.add('hidden');
+                emailForm.classList.remove('hidden');
+            } else {
+                emailForm.classList.add('hidden');
+                mobileForm.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>

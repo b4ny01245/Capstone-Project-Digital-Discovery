@@ -1,0 +1,24 @@
+{
+    "title": "Digital Discovery for Seniors",
+    "logo": "xFiles\/xlogo.jpg",
+    "header": "DIGITAL DISCOVERY FOR ELDERLY PEOPLE",
+    "description": {
+        "title": "Online Banks",
+        "english": "This topic helps our elders learn how online banking works.",
+        "waray": "Ine nga aradman makakabulig haat mga elders pag hibaro kun paunan-o itun pag gamit hitun mga online nga banko"
+    },
+    "lessons": [
+        {
+            "title": "Maya App",
+            "waray": "Pinduta adi kun karuyag mo mag aram hitun Maya App",
+            "link": "watch-maya.html",
+            "img": "xFiles\/maya.jpg"
+        },
+        {
+            "title": "GCash App",
+            "waray": "Pinduta adi kun karuyag mo mag aram hitun GCash App",
+            "link": "watch-gcash.html",
+            "img": "xFiles\/gcash.jpg"
+        }
+    ]
+}
