@@ -1,15 +1,30 @@
-# Capstone-Project-Digital-Discovery
-Final and Complete Project using (PHP). Open using XAMPP
+# Capstone Project – Digital Discovery
 
-1. Download as zip file
-2. Unzip the file
-3. Burn it in a CD/DVD
+A final capstone project developed using PHP and XAMPP.
 
-== After Burning  ==
-You can now use the system
+## Copyright
 
-For Users
-1. Click the Open_Digital_Discovery.vbs
+Copyright © 2026 b4ny01245. All rights reserved.
 
-For Admins
-1. Click the ADMIN_Digital_Discovery.vbs
+This repository is provided for viewing and evaluation purposes only.
+
+No permission is granted to copy, modify, redistribute, publish, or use any part of this source code or its assets without the prior written permission of the copyright owner.
+
+## Installation
+
+1. Download the repository as a ZIP file.
+2. Extract the contents.
+3. (Optional) Burn the extracted files to a CD/DVD if required for your deployment or demonstration.
+4. Follow the instructions below.
+
+### User
+
+* Run `Open_Digital_Discovery.vbs`
+
+### Administrator
+
+* Run `ADMIN_Digital_Discovery.vbs`
+
+## Disclaimer
+
+This project is intended for educational and portfolio purposes. Unauthorized reproduction, distribution, or commercial use is prohibited without written permission from the author.
