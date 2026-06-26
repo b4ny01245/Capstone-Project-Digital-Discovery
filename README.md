@@ -1,6 +1,8 @@
 # Capstone Project – Digital Discovery
 
 A final capstone project developed using PHP and XAMPP.
+Click this for the static version of the system.
+https://b4ny01245.github.io/digital-discovery/
 
 ## Copyright
 
