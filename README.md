@@ -14,7 +14,7 @@ No permission is granted to copy, modify, redistribute, publish, or use any part
 
 1. Download the repository as a ZIP file.
 2. Extract the contents.
-3. (Optional) Burn the extracted files to a CD/DVD if required for your deployment or demonstration.
+3. Burn the extracted files to a CD/DVD for the demonstration of the system.
 4. Follow the instructions below.
 
 ### User
