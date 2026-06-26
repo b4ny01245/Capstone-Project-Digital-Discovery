@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GCash Express Send in Phone Frame</title>
+<style>
+  /* Import Google Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  /* Reset */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2f5;
+    color: #123c9b;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Phone Frame */
+  .phone-container {
+    position: relative;
+    width: 375px;
+    height: 812px;
+    background-color: #000;
+    border-radius: 40px;
+    padding: 10px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  }
+  
+  .phone-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .phone-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 30px;
+    background-color: #000;
+    border-radius: 0 0 20px 20px;
+    z-index: 100;
+  }
+  
+  .phone-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #e9f0fe;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Hide scrollbar for cleaner look */
+  .phone-screen::-webkit-scrollbar {
+    width: 0px;
+  }
+  
+  /* App Styles */
+  /* Header */
+  header {
+    background-color: #1665ff;
+    color: white;
+    padding: 12px 16px;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+    z-index: 10;
+  }
+  header .back-btn {
+    cursor: pointer;
+    font-size: 1.3rem;
+    margin-right: 16px;
+    user-select: none;
+  }
+  /* Card */
+  .card {
+    background: white;
+    margin: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 24px;
+  }
+  /* Login Screen */
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 16px;
+    height: 100%;
+  }
+  .logo {
+    width: 120px;
+    height: 120px;
+    background-color: #1665ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  .login-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .login-subtitle {
+    color: #1f3287;
+    margin-bottom: 30px;
+  }
+  .mpin-container {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .mpin-input {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #c8c8c8;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #123c9b;
+  }
+  .mpin-input:focus {
+    outline: none;
+    border-color: #1665ff;
+  }
+  .mpin-input.filled {
+    border-color: #1665ff;
+    background-color: #e4ecff;
+  }
+  
+  /* Keypad Styles */
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 300px;
+    margin-top: 20px;
+  }
+  
+  .key {
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #123c9b;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .key:hover {
+    background-color: #f0f7ff;
+    transform: scale(1.05);
+  }
+  
+  .key:active {
+    transform: scale(0.95);
+    background-color: #e4ecff;
+  }
+  
+  .key.backspace {
+    grid-column: 3;
+    background-color: #f0f7ff;
+  }
+  
+  .key.zero {
+    grid-column: 2;
+    grid-row: 4;
+  }
+  
+  /* Home Screen */
+  .balance-card {
+    background: linear-gradient(135deg, #1665ff, #123c9b);
+    color: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin: 16px;
+  }
+  .balance-label {
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+  }
+  .balance-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .balance-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .balance-actions button {
+    background-color: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 16px;
+  }
+  .action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+  }
+  .action-icon {
+    width: 60px;
+    height: 60px;
+    background-color: #e4ecff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #1665ff;
+    margin-bottom: 8px;
+  }
+  .action-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  /* Send Options */
+  .send-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 16px;
+  }
+  .send-option {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .send-option:hover {
+    background-color: #f0f7ff;
+  }
+  .send-option-icon {
+    font-size: 2rem;
+    color: #1665ff;
+    margin-bottom: 12px;
+  }
+  .send-option-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .send-option-desc {
+    font-size: 0.875rem;
+    color: #1f3287;
+  }
+  /* Recipient Selection */
+  .recipient-input-container {
+    margin: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 20px;
+  }
+  .recipient-input-label {
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .recipient-input-group {
+    display: flex;
+    gap: 10px;
+  }
+  .recipient-input {
+    flex-grow: 1;
+    padding: 14px;
+    border: 2px solid #c8c8c8;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+  }
+  .recipient-input:focus {
+    outline: none;
+    border-color: #1665ff;
+  }
+  .recipient-input-btn {
+    background-color: #1665ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 20px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .recipient-input-btn:hover {
+    background-color: #0d52d9;
+  }
+  .recipient-input-btn:disabled {
+    background-color: #7ba5ff;
+    cursor: not-allowed;
+  }
+  .contact-list {
+    margin: 0 16px 16px;
+  }
+  .contact-list-title {
+    font-weight: 600;
+    margin: 16px 16px 8px;
+    font-size: 0.875rem;
+    color: #1f3287;
+  }
+  .contact-item {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  .contact-item:hover {
+    background-color: #f0f7ff;
+  }
+  .contact-avatar {
+    width: 48px;
+    height: 48px;
+    background-color: #1665ff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-right: 16px;
+  }
+  .contact-info {
+    flex-grow: 1;
+  }
+  .contact-name {
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .contact-number {
+    font-size: 0.875rem;
+    color: #1f3287;
+  }
+  /* Amount Input */
+  .amount-container {
+    margin: 16px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #c8c8c8;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+  }
+  .form-input:focus {
+    outline: none;
+    border-color: #1665ff;
+  }
+  .currency-input {
+    position: relative;
+  }
+  .currency-input .currency-symbol {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+    color: #123c9b;
+  }
+  .currency-input input {
+    padding-left: 30px;
+  }
+  /* Recipient info */
+  .recipient-name {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .recipient-phone {
+    background-color: #e4ecff;
+    color: #123c9b;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 16px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  /* Balance and Amount */
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .row label {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .small-text {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #1f3287;
+    margin-bottom: 12px;
+  }
+  .amount, .balance {
+    font-weight: 700;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #c8c8c8;
+    margin: 12px 0 24px 0;
+  }
+  /* Total to pay */
+  .total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.375rem;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+  .total .currency {
+    margin-right: 6px;
+  }
+  /* Protection section */
+  .protection {
+    background-color: #fff7d4;
+    color: #895808;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 8px 16px 24px 16px;
+    font-size: 0.925rem;
+  }
+  .protection strong {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .protection a {
+    color: #1665ff;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 8px;
+  }
+  .protection a:hover {
+    text-decoration: underline;
+  }
+  /* Toggle Switch */
+  .toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 16px;
+    margin: 16px;
+  }
+  .toggle-label {
+    font-weight: 600;
+  }
+  .toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background-color: #c8c8c8;
+    border-radius: 13px;
+    cursor: pointer;
+  }
+  .toggle-switch.active {
+    background-color: #1665ff;
+  }
+  .toggle-slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+  .toggle-switch.active .toggle-slider {
+    transform: translateX(24px);
+  }
+  /* Confirmation */
+  .confirmation {
+    margin: 0 16px 24px 16px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #123c9b;
+    line-height: 1.3;
+  }
+  .confirmation input[type=checkbox] {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+  /* Button */
+  .btn-send {
+    background-color: #1665ff;
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    padding: 14px;
+    margin: 24px 16px 32px 16px;
+    border: none;
+    border-radius: 36px;
+    width: calc(100% - 32px);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .btn-send:disabled {
+    background-color: #7ba5ff;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background-color: #1665ff;
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    padding: 14px;
+    border: none;
+    border-radius: 36px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .btn-primary:hover {
+    background-color: #0d52d9;
+  }
+  /* Screen Management */
+  .screen {
+    display: none;
+    min-height: 100%;
+  }
+  .screen.active {
+    display: block;
+  }
+  /* Success Screen */
+  .success-container {
+    text-align: center;
+    padding: 40px 16px;
+  }
+  .success-icon {
+    width: 100px;
+    height: 100px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 0 auto 24px;
+  }
+  .success-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .success-message {
+    color: #1f3287;
+    margin-bottom: 24px;
+  }
+  .transaction-details {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 20px;
+    margin: 0 16px 24px;
+    text-align: left;
+  }
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #c8c8c8;
+  }
+  .detail-row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .detail-label {
+    color: #1f3287;
+  }
+  .detail-value {
+    font-weight: 600;
+  }
+  .success-actions {
+    display: flex;
+    gap: 16px;
+    margin: 0 16px;
+  }
+  .success-actions button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 36px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-outline {
+    background-color: white;
+    color: #1665ff;
+    border: 2px solid #1665ff;
+  }
+  .btn-outline:hover {
+    background-color: #f0f7ff;
+  }
+</style>
+</head>
+<body>
+  <div class="phone-container">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen active">
+          <div class="login-container">
+            <div class="logo">GC</div>
+            <h1 class="login-title">Welcome to GCash</h1>
+            <p class="login-subtitle">Enter your MPIN to continue</p>
+            
+            <div class="mpin-container">
+              <input type="password" class="mpin-input" maxlength="1" id="mpin-1" readonly>
+              <input type="password" class="mpin-input" maxlength="1" id="mpin-2" readonly>
+              <input type="password" class="mpin-input" maxlength="1" id="mpin-3" readonly>
+              <input type="password" class="mpin-input" maxlength="1" id="mpin-4" readonly>
+            </div>
+            
+            <div class="keypad">
+              <button class="key" data-value="1">1</button>
+              <button class="key" data-value="2">2</button>
+              <button class="key" data-value="3">3</button>
+              <button class="key" data-value="4">4</button>
+              <button class="key" data-value="5">5</button>
+              <button class="key" data-value="6">6</button>
+              <button class="key" data-value="7">7</button>
+              <button class="key" data-value="8">8</button>
+              <button class="key" data-value="9">9</button>
+              <button class="key backspace" data-value="backspace">
+                <i class="fas fa-backspace"></i>
+              </button>
+              <button class="key zero" data-value="0">0</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Home Screen -->
+        <div id="home-screen" class="screen">
+          <header>
+            <div style="width: 24px;"></div>
+            GCash
+            <div style="width: 24px;"></div>
+          </header>
+          
+          <div class="balance-card">
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-amount">₱29.00</div>
+            <div class="balance-actions">
+              <button>Cash In</button>
+              <button>History</button>
+            </div>
+          </div>
+          
+          <div class="quick-actions">
+            <div class="action-item" id="send-action">
+              <div class="action-icon">
+                <i class="fas fa-paper-plane"></i>
+              </div>
+              <div class="action-name">Send</div>
+            </div>
+            <div class="action-item">
+              <div class="action-icon">
+                <i class="fas fa-qrcode"></i>
+              </div>
+              <div class="action-name">Scan QR</div>
+            </div>
+            <div class="action-item">
+              <div class="action-icon">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div class="action-name">Load</div>
+            </div>
+            <div class="action-item">
+              <div class="action-icon">
+                <i class="fas fa-credit-card"></i>
+              </div>
+              <div class="action-name">Pay Bills</div>
+            </div>
+          </div>
+          
+          <div class="quick-actions">
+            <div class="action-item">
+              <div class="action-icon">
+                <i class="fas fa-university"></i>
+              </div>
+              <div class="action-name">Bank</div>
+            </div>
+            <div class="action-item">
+              <div class="action-icon">
+                <i class="fas fa-gamepad"></i>
+              </div>
+              <div class="action-name">Games</div>
+            </div>
+            <div class="action-item">
+              <div class="action-icon">
+                <i class="fas fa-piggy-bank"></i>
+              </div>
+              <div class="action-name">Save Money</div>
+            </div>
+            <div class="action-item">
+              <div class="action-icon">
+                <i class="fas fa-ellipsis-h"></i>
+              </div>
+              <div class="action-name">More</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Send Options Screen -->
+        <div id="send-options-screen" class="screen">
+          <header>
+            <div class="back-btn" id="back-to-home">←</div>
+            Send Money
+            <div style="width: 24px;"></div>
+          </header>
+          
+          <div class="send-options">
+            <div class="send-option" id="express-send-option">
+              <div class="send-option-icon">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <div class="send-option-title">Express Send</div>
+              <div class="send-option-desc">Send to any GCash user</div>
+            </div>
+            <div class="send-option">
+              <div class="send-option-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="send-option-title">GCash Padala</div>
+              <div class="send-option-desc">Send to non-GCash users</div>
+            </div>
+            <div class="send-option">
+              <div class="send-option-icon">
+                <i class="fas fa-university"></i>
+              </div>
+              <div class="send-option-title">Bank Transfer</div>
+              <div class="send-option-desc">Send to bank accounts</div>
+            </div>
+            <div class="send-option">
+              <div class="send-option-icon">
+                <i class="fas fa-globe-asia"></i>
+              </div>
+              <div class="send-option-title">International</div>
+              <div class="send-option-desc">Send abroad</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recipient Selection Screen -->
+        <div id="recipient-screen" class="screen">
+          <header>
+            <div class="back-btn" id="back-to-send-options">←</div>
+            Select Recipient
+            <div style="width: 24px;"></div>
+          </header>
+          
+          <div class="recipient-input-container">
+            <label class="recipient-input-label">Enter Mobile Number</label>
+            <div class="recipient-input-group">
+              <input type="tel" class="recipient-input" id="manual-number-input" placeholder="09XX XXX XXXX">
+              <button class="recipient-input-btn" id="use-manual-number" disabled>Continue</button>
+            </div>
+          </div>
+          
+          <div class="contact-list-title">Recent Contacts</div>
+          <div class="contact-list">
+            <div class="contact-item" data-name="TESSA L." data-number="+63 947 296 8291">
+              <div class="contact-avatar">TL</div>
+              <div class="contact-info">
+                <div class="contact-name">TESSA L.</div>
+                <div class="contact-number">+63 947 296 8291</div>
+              </div>
+            </div>
+            <div class="contact-item" data-name="JUAN DELA CRUZ" data-number="+63 917 123 4567">
+              <div class="contact-avatar">JC</div>
+              <div class="contact-info">
+                <div class="contact-name">JUAN DELA CRUZ</div>
+                <div class="contact-number">+63 917 123 4567</div>
+              </div>
+            </div>
+            <div class="contact-item" data-name="MARIA SANTOS" data-number="+63 927 987 6543">
+              <div class="contact-avatar">MS</div>
+              <div class="contact-info">
+                <div class="contact-name">MARIA SANTOS</div>
+                <div class="contact-number">+63 927 987 6543</div>
+              </div>
+            </div>
+            <div class="contact-item" data-name="PEDRO REYES" data-number="+63 935 555 1234">
+              <div class="contact-avatar">PR</div>
+              <div class="contact-info">
+                <div class="contact-name">PEDRO REYES</div>
+                <div class="contact-number">+63 935 555 1234</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Amount Input Screen -->
+        <div id="amount-screen" class="screen">
+          <header>
+            <div class="back-btn" id="back-to-recipient">←</div>
+            Enter Amount
+            <div style="width: 24px;"></div>
+          </header>
+          
+          <div class="card">
+            <div class="recipient-name" id="selected-name">TESSA L.</div>
+            <div class="recipient-phone" id="selected-number">+63 947 296 8291</div>
+            
+            <div class="form-group">
+              <div class="form-label">Amount</div>
+              <div class="currency-input">
+                <span class="currency-symbol">₱</span>
+                <input type="number" class="form-input" id="amount-input" placeholder="0.00">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <div class="form-label">Message (Optional)</div>
+              <input type="text" class="form-input" id="message-input" placeholder="Add a message">
+            </div>
+            
+            <div class="toggle-container">
+              <div class="toggle-label">I-protect ang Padala (₱30)</div>
+              <div class="toggle-switch" id="protection-toggle">
+                <div class="toggle-slider"></div>
+              </div>
+            </div>
+          </div>
+          
+          <button class="btn-send" id="continue-to-confirm">Continue</button>
+        </div>
+        
+        <!-- Confirmation Screen -->
+        <div id="confirmation-screen" class="screen">
+          <header>
+            <div class="back-btn" id="back-to-amount">←</div>
+            Express Send
+            <div style="width: 24px;"></div>
+          </header>
+          
+          <section class="card">
+            <div class="recipient-name" id="confirm-name">TE••••A L.</div>
+            <div class="recipient-phone" id="confirm-phone">+63 947 296 8291</div>
+            <div class="row">
+              <label>GCash</label>
+              <div class="balance">29.00</div>
+            </div>
+            <div class="small-text">You're about to send</div>
+            <div class="row">
+              <label>Amount</label>
+              <div class="amount" id="confirm-amount">10.00</div>
+            </div>
+            <hr />
+            <div class="row total">
+              <div>Total Amount to Pay</div>
+              <div><span class="currency">₱</span><span id="confirm-total">10.00</span></div>
+            </div>
+          </section>
+          
+          <section class="protection">
+            <strong>Do you want extra protection?</strong>
+            PHP 30 lang, insured ang transactions mo for 30 days!<br />
+            <a href="#">Protect this transaction now!</a>
+          </section>
+          
+          <section class="confirmation">
+            <p>
+              <strong>Confirmed transactions <u>will not be refunded</u>.</strong> Please make sure that the mobile number and amount are correct.
+            </p>
+            <label>
+              <input type="checkbox" id="confirmCheck" />
+              I confirm that the details are correct.
+            </label>
+          </section>
+          
+          <button class="btn-send" id="sendBtn" disabled>Send PHP <span id="send-amount">10.00</span></button>
+        </div>
+        
+        <!-- Success Screen -->
+        <div id="success-screen" class="screen">
+          <header>
+            <div style="width: 24px;"></div>
+            Transaction Complete
+            <div style="width: 24px;"></div>
+          </header>
+          
+          <div class="success-container">
+            <div class="success-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <h2 class="success-title">Send Successful!</h2>
+            <p class="success-message">
+              Your money has been sent successfully. The recipient will receive the funds shortly.
+            </p>
+            
+            <div class="transaction-details">
+              <div class="detail-row">
+                <div class="detail-label">Transaction ID</div>
+                <div class="detail-value">TXN123456789</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Date & Time</div>
+                <div class="detail-value">Oct 15, 2023 10:30 AM</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Recipient</div>
+                <div class="detail-value" id="success-recipient">TESSA L.</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Amount</div>
+                <div class="detail-value">₱<span id="success-amount">10.00</span></div>
+              </div>
+            </div>
+            
+            <div class="success-actions">
+              <button class="btn-outline" id="new-transaction">New Transaction</button>
+              <button class="btn-primary" id="done-btn">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    // Screen navigation
+    const screens = {
+      login: document.getElementById('login-screen'),
+      home: document.getElementById('home-screen'),
+      sendOptions: document.getElementById('send-options-screen'),
+      recipient: document.getElementById('recipient-screen'),
+      amount: document.getElementById('amount-screen'),
+      confirmation: document.getElementById('confirmation-screen'),
+      success: document.getElementById('success-screen')
+    };
+    
+    function showScreen(screenName) {
+      Object.values(screens).forEach(screen => {
+        screen.classList.remove('active');
+      });
+      screens[screenName].classList.add('active');
+    }
+    
+    // Login functionality with keypad
+    const mpinInputs = [
+      document.getElementById('mpin-1'),
+      document.getElementById('mpin-2'),
+      document.getElementById('mpin-3'),
+      document.getElementById('mpin-4')
+    ];
+    
+    let currentMpinIndex = 0;
+    
+    // Handle keypad input
+    document.querySelectorAll('.key').forEach(key => {
+      key.addEventListener('click', () => {
+        const value = key.dataset.value;
+        
+        if (value === 'backspace') {
+          // Handle backspace
+          if (currentMpinIndex > 0) {
+            currentMpinIndex--;
+            mpinInputs[currentMpinIndex].value = '';
+            mpinInputs[currentMpinIndex].classList.remove('filled');
+          }
+        } else {
+          // Handle number input
+          if (currentMpinIndex < mpinInputs.length) {
+            mpinInputs[currentMpinIndex].value = value;
+            mpinInputs[currentMpinIndex].classList.add('filled');
+            currentMpinIndex++;
+            
+            // Check if MPIN is complete
+            if (currentMpinIndex === mpinInputs.length) {
+              // Auto login after a short delay
+              setTimeout(() => {
+                showScreen('home');
+                // Reset MPIN for next login
+                resetMpin();
+              }, 300);
+            }
+          }
+        }
+      });
+    });
+    
+    function resetMpin() {
+      mpinInputs.forEach(input => {
+        input.value = '';
+        input.classList.remove('filled');
+      });
+      currentMpinIndex = 0;
+    }
+    
+    // Navigation buttons
+    document.getElementById('send-action').addEventListener('click', () => {
+      showScreen('sendOptions');
+    });
+    
+    document.getElementById('back-to-home').addEventListener('click', () => {
+      showScreen('home');
+    });
+    
+    document.getElementById('express-send-option').addEventListener('click', () => {
+      showScreen('recipient');
+    });
+    
+    document.getElementById('back-to-send-options').addEventListener('click', () => {
+      showScreen('sendOptions');
+    });
+    
+    // Recipient selection
+    let selectedRecipient = {
+      name: 'TESSA L.',
+      number: '+63 947 296 8291'
+    };
+    
+    // Handle contact item clicks
+    document.querySelectorAll('.contact-item').forEach(item => {
+      item.addEventListener('click', () => {
+        selectedRecipient = {
+          name: item.dataset.name,
+          number: item.dataset.number
+        };
+        showScreen('amount');
+        updateAmountScreen();
+      });
+    });
+    
+    // Handle manual number input
+    const manualNumberInput = document.getElementById('manual-number-input');
+    const useManualNumberBtn = document.getElementById('use-manual-number');
+    
+    // Enable/disable button based on input
+    manualNumberInput.addEventListener('input', () => {
+      const phoneNumber = manualNumberInput.value.trim();
+      useManualNumberBtn.disabled = phoneNumber.length < 10;
+    });
+    
+    // Handle manual number submission
+    useManualNumberBtn.addEventListener('click', () => {
+      const phoneNumber = manualNumberInput.value.trim();
+      
+      // Format phone number if needed
+      let formattedNumber = phoneNumber;
+      if (!phoneNumber.startsWith('+63')) {
+        if (phoneNumber.startsWith('0')) {
+          formattedNumber = '+63' + phoneNumber.substring(1);
+        } else {
+          formattedNumber = '+63' + phoneNumber;
+        }
+      }
+      
+      // Create a name from the phone number
+      const lastFourDigits = phoneNumber.slice(-4);
+      const recipientName = `Recipient ••••${lastFourDigits}`;
+      
+      selectedRecipient = {
+        name: recipientName,
+        number: formattedNumber
+      };
+      
+      showScreen('amount');
+      updateAmountScreen();
+      
+      // Clear the input for next time
+      manualNumberInput.value = '';
+      useManualNumberBtn.disabled = true;
+    });
+    
+    function updateAmountScreen() {
+      document.getElementById('selected-name').textContent = selectedRecipient.name;
+      document.getElementById('selected-number').textContent = selectedRecipient.number;
+    }
+    
+    document.getElementById('back-to-recipient').addEventListener('click', () => {
+      showScreen('recipient');
+    });
+    
+    // Amount input
+    let protectionEnabled = false;
+    const protectionToggle = document.getElementById('protection-toggle');
+    
+    protectionToggle.addEventListener('click', () => {
+      protectionEnabled = !protectionEnabled;
+      protectionToggle.classList.toggle('active');
+    });
+    
+    document.getElementById('continue-to-confirm').addEventListener('click', () => {
+      const amount = parseFloat(document.getElementById('amount-input').value);
+      
+      if (!amount || amount <= 0) {
+        alert('Please enter a valid amount');
+        return;
+      }
+      
+      if (amount > 29) {
+        alert('Insufficient balance');
+        return;
+      }
+      
+      updateConfirmationScreen(amount);
+      showScreen('confirmation');
+    });
+    
+    function updateConfirmationScreen(amount) {
+      // Mask the name for confirmation
+      const maskedName = selectedRecipient.name.split(' ').map(part => {
+        return part.substring(0, 2) + '••••' + part.substring(part.length - 1);
+      }).join(' ');
+      
+      document.getElementById('confirm-name').textContent = maskedName;
+      document.getElementById('confirm-phone').textContent = selectedRecipient.number;
+      document.getElementById('confirm-amount').textContent = amount.toFixed(2);
+      
+      const totalAmount = protectionEnabled ? amount + 30 : amount;
+      document.getElementById('confirm-total').textContent = totalAmount.toFixed(2);
+      document.getElementById('send-amount').textContent = totalAmount.toFixed(2);
+    }
+    
+    document.getElementById('back-to-amount').addEventListener('click', () => {
+      showScreen('amount');
+    });
+    
+    // Confirmation
+    const checkbox = document.getElementById('confirmCheck');
+    const sendBtn = document.getElementById('sendBtn');
+    
+    checkbox.addEventListener('change', () => {
+      sendBtn.disabled = !checkbox.checked;
+    });
+    
+    sendBtn.addEventListener('click', () => {
+      // Update success screen
+      document.getElementById('success-recipient').textContent = selectedRecipient.name;
+      document.getElementById('success-amount').textContent = document.getElementById('confirm-amount').textContent;
+      
+      showScreen('success');
+    });
+    
+    // Success screen actions
+    document.getElementById('new-transaction').addEventListener('click', () => {
+      // Reset form
+      document.getElementById('amount-input').value = '';
+      document.getElementById('message-input').value = '';
+      protectionEnabled = false;
+      protectionToggle.classList.remove('active');
+      checkbox.checked = false;
+      sendBtn.disabled = true;
+      
+      showScreen('amount');
+    });
+    
+    document.getElementById('done-btn').addEventListener('click', () => {
+      showScreen('home');
+    });
+  </script>
+</body>
+</html>

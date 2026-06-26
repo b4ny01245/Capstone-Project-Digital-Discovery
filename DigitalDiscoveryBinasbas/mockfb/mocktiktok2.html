@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .phone {
+      width: 375px;
+      height: 812px;
+      background: #1B1B1D;
+      border-radius: 40px;
+      padding: 10px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 30px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="phone">
+    <div class="screen">
+      <!-- Status Bar -->
+      <div class="flex justify-between items-center px-4 py-1 text-[14px] font-sans border-b border-gray-200">
+        <div class="font-semibold">4:01</div>
+        <div class="flex items-center space-x-1">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-wifi"></i>
+          <span class="text-[8px] font-bold">Vo</span>
+          <span class="text-[8px] font-bold">LTE</span>
+          <div class="flex space-x-[2px]">
+            <div class="w-[3px] h-[8px] bg-black rounded-sm"></div>
+            <div class="w-[3px] h-[8px] bg-black rounded-sm"></div>
+            <div class="w-[3px] h-[8px] bg-black rounded-sm"></div>
+          </div>
+          <div class="flex space-x-[2px]">
+            <div class="w-[3px] h-[6px] bg-black rounded-sm"></div>
+            <div class="w-[3px] h-[6px] bg-black rounded-sm"></div>
+          </div>
+          <div class="border border-black rounded-sm px-[2px] text-[10px] font-bold flex items-center">
+            <i class="fas fa-battery-full mr-[2px]"></i> 80%
+          </div>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <header class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+        <a href="mocktiktok.html" class="text-black text-2xl leading-none" aria-label="Go back">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="font-semibold text-lg text-black">Sign up</h1>
+        <button aria-label="Help" class="text-gray-400 text-2xl leading-none">
+          <i class="fas fa-question-circle"></i>
+        </button>
+      </header>
+
+      <!-- Tabs -->
+      <nav class="flex border-b border-gray-200 text-gray-400 text-sm font-semibold">
+        <button id="tab-phone" class="flex-1 text-center py-3 text-black border-b-2 border-black" onclick="showTab('phone')">Phone</button>
+        <button id="tab-email" class="flex-1 text-center py-3" onclick="showTab('email')">Email / Username</button>
+      </nav>
+
+      <!-- Phone Form -->
+      <form id="form-phone" class="px-6 pt-6" onsubmit="return false;">
+        <div class="flex items-center bg-gray-100 rounded-xl px-4 py-3 space-x-4 max-w-md">
+          <button type="button" class="flex items-center space-x-1 text-black font-normal text-base" aria-haspopup="listbox" aria-expanded="false">
+            <span>PH +63</span>
+            <i class="fas fa-chevron-down text-base"></i>
+          </button>
+          <div class="border-l border-gray-300 h-6"></div>
+          <input type="phone" placeholder="Phone number" class="flex-1 bg-transparent placeholder-gray-400 text-base focus:outline-none" />
+        </div>
+        <p style="color: gray; font-size: 13px;">Your phone number maybe used to connect you <br> to people you may know, improve ads, and more, <br> depending on your settings.</p>
+
+        <div class="flex items-center space-x-3 mt-12 max-w-md">
+          <label class="relative w-6 h-6">
+            <input type="checkbox" class="peer appearance-none w-full h-full border-2 border-gray-300 rounded-full checked:bg-[#f92856]" />
+            <i class="fas fa-check text-white text-xs absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden peer-checked:block"></i>
+          </label>
+          <p class="text-gray-600 text-sm leading-tight">
+            Save login info to log in automatically next time.
+          </p>
+        </div>
+
+        <button type="submit" class="mt-6 w-full max-w-md bg-[#f92856] text-white font-semibold text-lg rounded-xl py-3">
+          Continue
+        </button>
+      </form>
+
+      <!-- Email Form -->
+      <form id="form-email" class="px-6 pt-6 hidden" onsubmit="return false;">
+        <div class="flex items-center bg-gray-100 rounded-xl px-4 py-3 space-x-4 max-w-md">
+          <i class="fas fa-envelope text-gray-400 text-lg"></i>
+          <input type="email" placeholder="Email or Username" class="flex-1 bg-transparent placeholder-gray-400 text-base focus:outline-none" />
+        </div>
+
+        <div class="flex items-center space-x-3 mt-12 max-w-md">
+          <label class="relative w-6 h-6">
+            <input type="checkbox" class="peer appearance-none w-full h-full border-2 border-gray-300 rounded-full checked:bg-[#f92856]" />
+            <i class="fas fa-check text-white text-xs absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden peer-checked:block"></i>
+          </label>
+          <p class="text-gray-600 text-sm leading-tight">
+            Save login info to log in automatically next time.
+          </p>
+        </div>
+
+        <button type="submit" class="mt-6 w-full max-w-md bg-[#f92856] text-white font-semibold text-lg rounded-xl py-3">
+          Continue
+        </button>
+      </form>
+
+      <div class="flex-grow"></div>
+      <div class="h-2 bg-gray-200 rounded-full mx-auto my-4 w-20"></div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tab) {
+      const tabPhone = document.getElementById('tab-phone');
+      const tabEmail = document.getElementById('tab-email');
+      const formPhone = document.getElementById('form-phone');
+      const formEmail = document.getElementById('form-email');
+
+      if (tab === 'phone') {
+        tabPhone.classList.add('text-black', 'border-b-2', 'border-black');
+        tabEmail.classList.remove('text-black', 'border-b-2', 'border-black');
+        formPhone.classList.remove('hidden');
+        formEmail.classList.add('hidden');
+      } else {
+        tabEmail.classList.add('text-black', 'border-b-2', 'border-black');
+        tabPhone.classList.remove('text-black', 'border-b-2', 'border-black');
+        formEmail.classList.remove('hidden');
+        formPhone.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

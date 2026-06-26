@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Newsfeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: #000;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+        .tiktok-header {
+            position: absolute;
+            top: 44px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 10;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        .following-live {
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .following, .live {
+            padding: 8px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+        }
+        .following.active, .live.active {
+            background-color: white;
+            color: black;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .header-right i {
+            font-size: 22px;
+            color: white;
+        }
+        .content-area {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .video-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-color: #000;
+        }
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            color: white;
+            z-index: 5;
+        }
+        .video-info {
+            margin-bottom: 20px;
+        }
+        .video-username {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .video-description {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .video-music {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        .video-music i {
+            margin-right: 5px;
+        }
+        .video-actions {
+            position: absolute;
+            bottom: 80px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 5;
+        }
+        .action-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .action-icon i {
+            font-size: 28px;
+        }
+        .action-count {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .profile-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background-color: #e6e6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            cursor: pointer;
+            position: relative;
+        }
+        .profile-button i {
+            color: #8e8e8e;
+            font-size: 24px;
+        }
+        .add-icon {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ff0050;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+            border: 2px solid black;
+        }
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: transparent;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 10;
+        }
+        .nav-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+        }
+        .nav-item i {
+            font-size: 24px;
+            color: white;
+        }
+        .nav-item.active i {
+            color: white;
+        }
+        .nav-item.home {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        .notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background-color: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 100;
+        }
+        .comments-section {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            color: white;
+            display: none;
+            flex-direction: column;
+            z-index: 20;
+        }
+        .comments-section.active {
+            display: flex;
+        }
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .comments-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .close-comments {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .comments-list {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        .comment {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .comment-profile {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e6e6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .comment-profile i {
+            color: #8e8e8e;
+            font-size: 18px;
+        }
+        .comment-content {
+            flex: 1;
+        }
+        .comment-username {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        .comment-text {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .comment-time {
+            font-size: 12px;
+            color: #a0a0a0;
+        }
+        .add-comment {
+            display: flex;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .add-comment input {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            outline: none;
+            font-size: 14px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            color: white;
+        }
+        .add-comment button {
+            background: none;
+            border: none;
+            color: #ff0050;
+            font-weight: 600;
+            font-size: 14px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .liked {
+            color: #ff0050;
+        }
+        .video-controls {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            display: flex;
+            align-items: center;
+            z-index: 5;
+        }
+        .play-pause-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .progress-container {
+            flex: 1;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: white;
+            width: 0%;
+        }
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+            display: none;
+        }
+        .toast.show {
+            display: block;
+            animation: fadeInOut 2s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="notch"></div>
+        <div class="phone-screen">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="tiktok-header">
+                <div class="header-left">
+                    <div class="following-live">
+                        <div class="following active">Following</div>
+                        <div class="live">For you</div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <i class="fas fa-search"></i>
+                    <i class="fas fa-bell"></i>
+                </div>
+            </div>
+            <div class="content-area">
+                <div class="video-container">
+                    <video class="video-player" id="videoPlayer" src="../xFiles/tiktokvid.mp4" alt="TikTok Video" autoplay muted loop>
+                    </video>
+                    <div class="video-overlay">
+                        <div class="video-info">
+                            <div class="video-username">@cassy</div>
+                            <div class="video-description">Check out this amazing pink aesthetic! ✨ #pink #aesthetic #trending</div>
+                            <div class="video-music">
+                                <i class="fas fa-music"></i>
+                                <span>Original Sound - cassy</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-controls">
+                        <div class="play-pause-btn" id="playPauseBtn">
+                            <i class="fas fa-pause"></i>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                    </div>
+                    <div class="video-actions">
+                        <div class="action-button">
+                            <div class="profile-button">
+                                <i class="fas fa-user"></i>
+                                <div class="add-icon">+</div>
+                            </div>
+                        </div>
+                        <div class="action-button">
+                            <div class="action-icon like-btn">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="action-count like-count">42.1K</div>
+                        </div>
+                        <div class="action-button">
+                            <div class="action-icon comment-btn">
+                                <i class="far fa-comment"></i>
+                            </div>
+                            <div class="action-count comment-count">843</div>
+                        </div>
+                        <div class="action-button">
+                            <div class="action-icon share-btn">
+                                <i class="far fa-share"></i>
+                            </div>
+                            <div class="action-count">1,205</div>
+                        </div>
+                        <div class="action-button">
+                            <div class="action-icon bookmark-btn">
+                                <i class="far fa-bookmark"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="comments-section" id="commentsSection">
+                    <div class="comments-header">
+                        <div class="comments-title">Comments (843)</div>
+                        <div class="close-comments" id="closeComments">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    <div class="comments-list" id="commentsList">
+                        <div class="comment">
+                            <div class="comment-profile">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="comment-content">
+                                <div class="comment-username">@user123</div>
+                                <div class="comment-text">This is so aesthetic! Love the pink vibes 🌸</div>
+                                <div class="comment-time">2h ago</div>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-profile">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="comment-content">
+                                <div class="comment-username">@pinklover</div>
+                                <div class="comment-text">Where did you get that doll? It's adorable!</div>
+                                <div class="comment-time">1h ago</div>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-profile">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="comment-content">
+                                <div class="comment-username">@creative_mind</div>
+                                <div class="comment-text">The editing is amazing! What app do you use?</div>
+                                <div class="comment-time">45m ago</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add-comment">
+                        <input type="text" placeholder="Add a comment..." id="commentInput">
+                        <button id="postCommentBtn">Post</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <div class="nav-item active">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="nav-item home">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-inbox"></i>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Video controls functionality
+        const videoPlayer = document.getElementById('videoPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        
+        // Update play/pause button icon
+        function updatePlayPauseIcon() {
+            const icon = playPauseBtn.querySelector('i');
+            if (videoPlayer.paused) {
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+            } else {
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+            }
+        }
+        
+        // Play/pause functionality
+        playPauseBtn.addEventListener('click', () => {
+            if (videoPlayer.paused) {
+                videoPlayer.play();
+            } else {
+                videoPlayer.pause();
+            }
+            updatePlayPauseIcon();
+        });
+        
+        // Update progress bar
+        videoPlayer.addEventListener('timeupdate', () => {
+            const progress = (videoPlayer.currentTime / videoPlayer.duration) * 100;
+            progressBar.style.width = `${progress}%`;
+        });
+        
+        // Like button functionality
+        document.querySelector('.like-btn').addEventListener('click', function() {
+            this.classList.toggle('liked');
+            const icon = this.querySelector('i');
+            const likeCount = document.querySelector('.like-count');
+            let currentCount = parseFloat(likeCount.textContent);
+            
+            if (this.classList.contains('liked')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                
+                // Increment like count
+                if (currentCount >= 1000) {
+                    currentCount += 0.1;
+                    likeCount.textContent = currentCount.toFixed(1) + 'K';
+                } else {
+                    likeCount.textContent = (currentCount + 1).toLocaleString();
+                }
+                
+                // Show toast
+                showToast('Liked!');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                
+                // Decrement like count
+                if (currentCount >= 1000) {
+                    currentCount -= 0.1;
+                    likeCount.textContent = currentCount.toFixed(1) + 'K';
+                } else {
+                    likeCount.textContent = (currentCount - 1).toLocaleString();
+                }
+            }
+        });
+        
+        // Bookmark button functionality
+        document.querySelector('.bookmark-btn').addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                showToast('Saved to your collection!');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                showToast('Removed from your collection');
+            }
+        });
+        
+        // Share button functionality
+        document.querySelector('.share-btn').addEventListener('click', function() {
+            showToast('Share options would appear here');
+        });
+        
+        // Comment button functionality
+        document.querySelector('.comment-btn').addEventListener('click', function() {
+            const commentsSection = document.getElementById('commentsSection');
+            commentsSection.classList.add('active');
+        });
+        
+        // Close comments functionality
+        document.getElementById('closeComments').addEventListener('click', function() {
+            const commentsSection = document.getElementById('commentsSection');
+            commentsSection.classList.remove('active');
+        });
+        
+        // Post comment functionality
+        document.getElementById('postCommentBtn').addEventListener('click', function() {
+            const commentInput = document.getElementById('commentInput');
+            const commentText = commentInput.value.trim();
+            
+            if (commentText) {
+                const newComment = document.createElement('div');
+                newComment.className = 'comment';
+                newComment.innerHTML = `
+                    <div class="comment-profile">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-username">you</div>
+                        <div class="comment-text">${commentText}</div>
+                        <div class="comment-time">Just now</div>
+                    </div>
+                `;
+                
+                const commentsList = document.getElementById('commentsList');
+                commentsList.appendChild(newComment);
+                
+                // Update comment count
+                const commentCount = document.querySelector('.comment-count');
+                let currentCount = parseInt(commentCount.textContent.replace(',', ''));
+                commentCount.textContent = (currentCount + 1).toLocaleString();
+                
+                // Update comments title
+                const commentsTitle = document.querySelector('.comments-title');
+                commentsTitle.textContent = `Comments (${(currentCount + 1).toLocaleString()})`;
+                
+                commentInput.value = '';
+                
+                // Show toast
+                showToast('Comment posted!');
+            }
+        });
+        
+        // Allow posting comment with Enter key
+        document.getElementById('commentInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('postCommentBtn').click();
+            }
+        });
+        
+        // Following/For you toggle
+        document.querySelector('.following').addEventListener('click', function() {
+            document.querySelector('.following').classList.add('active');
+            document.querySelector('.live').classList.remove('active');
+            showToast('Switched to Following feed');
+        });
+        
+        document.querySelector('.live').addEventListener('click', function() {
+            document.querySelector('.live').classList.add('active');
+            document.querySelector('.following').classList.remove('active');
+            showToast('Switched to For You feed');
+        });
+        
+        // Bottom navigation functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                
+                // Add active class to clicked item (except create post)
+                if (!this.classList.contains('home')) {
+                    this.classList.add('active');
+                }
+                
+                // Show toast for navigation
+                if (this.querySelector('.fa-search')) {
+                    showToast('Search page would open here');
+                } else if (this.querySelector('.fa-inbox')) {
+                    showToast('Inbox would open here');
+                } else if (this.querySelector('.fa-user')) {
+                    showToast('Profile page would open here');
+                } else if (this.classList.contains('home')) {
+                    showToast('Create video options would appear here');
+                }
+            });
+        });
+        
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+        
+        // Profile button functionality
+        document.querySelector('.profile-button').addEventListener('click', function() {
+            showToast('Followed @cassy!');
+            this.querySelector('.add-icon').textContent = '✓';
+        });
+    </script>
+</body>
+</html>

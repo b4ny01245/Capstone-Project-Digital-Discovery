@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maya App - Responsive Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .phone-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 36px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            border: 10px solid #000;
+            /* black phone frame */
+        }
+
+        .phone-frame {
+            width: 100%;
+            height: auto;
+            min-height: 700px;
+            position: relative;
+            overflow: hidden;
+            /* original */
+        }
+
+        .app-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100% - 30px);
+            overflow-y: auto;
+            max-height: calc(100vh - 60px);
+        }
+
+
+        .status-bar {
+            height: 30px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .app-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100% - 30px);
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .step-indicator {
+            margin-left: auto;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #00a651;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon .icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input {
+            margin-right: 10px;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: auto;
+        }
+
+        .btn-primary {
+            background-color: #00a651;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #008c47;
+        }
+
+        .btn-primary:disabled {
+            background-color: #a0d8b8;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .maya-logo {
+            font-weight: 700;
+            font-size: 64px;
+            color: #00a651;
+            letter-spacing: -0.04em;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .tagline {
+            text-align: center;
+            font-weight: 600;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        .data-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .data-option-label {
+            display: flex;
+            align-items: center;
+        }
+
+        .data-option-label input {
+            margin-right: 15px;
+        }
+
+        .data-option-label span {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .data-option .plus-icon {
+            font-size: 18px;
+            color: #00a651;
+        }
+
+        .feature-card {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #00a651;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        .feature-text h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .feature-text p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .terms {
+            font-size: 12px;
+            color: #666;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        .terms a {
+            color: #00a651;
+            text-decoration: none;
+        }
+
+        .home-indicator {
+            width: 120px;
+            height: 4px;
+            background-color: #333;
+            border-radius: 100px;
+            margin: 15px auto;
+        }
+
+        /* Step 2 specific styles */
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .country-code {
+            display: flex;
+            align-items: center;
+            padding: 14px 15px;
+            background-color: #f5f5f5;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+            color: #333;
+            border-right: 1px solid #ddd;
+        }
+
+        .country-code span {
+            margin-right: 8px;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper .form-control {
+            padding-right: 50px;
+        }
+
+        .input-icons {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-icons i {
+            color: #666;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .info-tooltip {
+            position: relative;
+        }
+
+        .tooltip-content {
+            position: absolute;
+            bottom: 30px;
+            right: 0;
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .tooltip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            right: 15px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .info-tooltip:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .phone-container {
+                max-width: 100%;
+                border-radius: 0;
+                height: 100vh;
+            }
+
+            .phone-frame {
+                min-height: 100vh;
+            }
+
+            .app-content {
+                padding: 15px;
+            }
+
+            .maya-logo {
+                font-size: 56px;
+                margin: 20px 0;
+            }
+
+            .tagline {
+                font-size: 16px;
+            }
+
+            .title {
+                font-size: 22px;
+            }
+
+            .btn {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone-container">
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <span>●●●●● <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+            </div>
+
+            <div class="app-content">
+                <!-- Screen 1: Initial Login Screen -->
+                <div class="screen active" id="screen1">
+                    <div class="maya-logo">maya</div>
+                    <div class="tagline">It's everything and a bank</div>
+
+                    <button class="btn btn-primary" onclick="showScreen(2)">Start an account</button>
+                    <a class="btn btn-secondary" href="../mockfb/mockMaya2.html#login-view"><center>Login</center></a>
+
+                    <div class="footer-text">
+                        Regulated by the Bangko Sentral ng Pilipinas.<br>
+                        Deposits are insured by PDIC up to ₱1,000,000 per depositor.
+                    </div>
+                </div>
+
+                <!-- Screen 2: Create Account (Step 1) -->
+                <div class="screen" id="screen2">
+                    <div class="header">
+                        <button class="back-btn" onclick="showScreen(1)">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="step-indicator">1/4</div>
+                    </div>
+
+                    <h2 class="title">Start an account</h2>
+
+                    <div class="form-group">
+                        <label for="firstName">First name</label>
+                        <input type="text" id="firstName" class="form-control" placeholder="Enter first name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="middleName">Middle name</label>
+                        <input type="text" id="middleName" class="form-control" placeholder="Enter middle name">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="noMiddleName">
+                            <label for="noMiddleName">I have no legal middle name</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last name</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Enter last name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email address (Optional)</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter email address">
+                        <p class="subtitle">We'll verify your email after you create an account.</p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="showScreen(3)">Continue</button>
+                </div>
+
+                <!-- Screen 3: Set Login Details (Step 2) -->
+                <div class="screen" id="screen3">
+                    <div class="header">
+                        <button class="back-btn" onclick="showScreen(2)">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="step-indicator">2/4</div>
+                    </div>
+
+                    <h2 class="title">Set your login details</h2>
+
+                    <div class="form-group">
+                        <label for="phone">Phone number</label>
+                        <div class="input-group">
+                            <div class="country-code">
+                                <span>🇵🇭</span>
+                                <span>+63</span>
+                            </div>
+                            <input type="tel" id="phone" class="form-control" placeholder="Enter phone number">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" class="form-control" placeholder="Enter password">
+                            <div class="input-icons">
+                                <div class="info-tooltip">
+                                    <i class="fas fa-info-circle"></i>
+                                    <div class="tooltip-content">
+                                        Password must be at least 8 characters with a mix of letters, numbers, and
+                                        special characters.
+                                    </div>
+                                </div>
+                                <i class="fas fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" id="continueBtn" onclick="continueToNextStep()">Continue</button>
+                </div>
+
+                <!-- Screen 4: App Initialization (Step 3) -->
+                <div class="screen" id="screen4">
+                    <div class="header">
+                        <button class="back-btn" onclick="showScreen(3)">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="step-indicator">3/4</div>
+                    </div>
+
+                    <h2 class="title">Let's get started</h2>
+                    <p class="subtitle">We'll be opening these accounts for you:</p>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Wallet</h3>
+                            <p>Opened by default</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Savings</h3>
+                            <p>Earn up to 14% as you use Maya</p>
+                        </div>
+                    </div>
+
+                    <div class="terms">
+                        By proceeding, you agree to the <a href="#">Maya Philippines terms and conditions</a>, <a
+                            href="#">Maya Philippines privacy policy</a>, <a href="#">Funds Transfer Agreement</a>, and
+                        <a href="#">Deposit Agreement</a>.
+                    </div>
+
+                    <button class="btn btn-primary" onclick="showScreen(5)">Continue</button>
+                </div>
+
+                <!-- Screen 5: Data Personalization (Step 4) -->
+                <div class="screen" id="screen5">
+                    <div class="header">
+                        <button class="back-btn" onclick="showScreen(4)">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="step-indicator">4/4</div>
+                    </div>
+
+                    <h2 class="title">Data personalization</h2>
+                    <p class="subtitle">To give you a better Maya experience, we need to process some of your data. You
+                        can enable or disable these anytime in Settings.</p>
+
+                    <div class="data-option">
+                        <div class="data-option-label">
+                            <input type="checkbox" id="enableAll" checked>
+                            <span>Enable all data personalization</span>
+                        </div>
+                        <span class="plus-icon"><i class="fas fa-plus"></i></span>
+                    </div>
+
+                    <div class="data-option">
+                        <div class="data-option-label">
+                            <input type="checkbox" id="promos" checked>
+                            <span>Promos and Rewards</span>
+                        </div>
+                        <span class="plus-icon"><i class="fas fa-plus"></i></span>
+                    </div>
+
+                    <div class="data-option">
+                        <div class="data-option-label">
+                            <input type="checkbox" id="profiling" checked>
+                            <span>Profiling</span>
+                        </div>
+                        <span class="plus-icon"><i class="fas fa-plus"></i></span>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="showScreen(6)">Save</button>
+                </div>
+
+                <!-- Screen 6: Success Screen -->
+                <div class="screen" id="screen6">
+                    <div class="maya-logo">maya</div>
+                    <div class="tagline">Welcome to Maya!</div>
+
+                    <div style="text-align: center; margin: 30px 0;">
+                        <i class="fas fa-check-circle"
+                            style="font-size: 64px; color: #00a651; margin-bottom: 20px;"></i>
+                        <h2 style="font-size: 24px; margin-bottom: 10px;">Account Created Successfully!</h2>
+                        <p style="color: #666;">You can now use Maya for all your banking needs.</p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="showScreen(1)">Get Started</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(screenNumber) {
+            // Hide all screens
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+
+            // Show the selected screen
+            document.getElementById(`screen${screenNumber}`).classList.add('active');
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Handle "no middle name" checkbox
+        document.getElementById('noMiddleName').addEventListener('change', function () {
+            const middleNameInput = document.getElementById('middleName');
+            if (this.checked) {
+                middleNameInput.value = '';
+                middleNameInput.disabled = true;
+            } else {
+                middleNameInput.disabled = false;
+            }
+        });
+
+        // Handle "enable all" checkbox
+        document.getElementById('enableAll').addEventListener('change', function () {
+            const promosCheckbox = document.getElementById('promos');
+            const profilingCheckbox = document.getElementById('profiling');
+
+            promosCheckbox.checked = this.checked;
+            profilingCheckbox.checked = this.checked;
+        });
+
+        // Step 2 specific functions
+        // Check if form is valid to enable/disable continue button
+        document.getElementById('phone').addEventListener('input', validateForm);
+        document.getElementById('password').addEventListener('input', validateForm);
+
+        function validateForm() {
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const continueBtn = document.getElementById('continueBtn');
+
+            // Simple validation
+            if (phone.length >= 10 && password.length >= 8) {
+                continueBtn.disabled = false;
+            } else {
+                continueBtn.disabled = true;
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('togglePassword');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        function continueToNextStep() {
+            // Navigate to Step 3 (App Initialization)
+            showScreen(4);
+        }
+
+        // Initialize form validation
+        validateForm();
+    </script>
+</body>
+
+</html>

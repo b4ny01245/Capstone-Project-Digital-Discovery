@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Name Input</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #0d1e2f;
+        }
+
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #1B1B1D;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            color: #0d1e2f;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .back-button {
+            font-size: 24px;
+            color: #0d1e2f;
+            margin-bottom: 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            align-self: start;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .primary {
+            background-color: #0A6EFF;
+            color: white;
+            border-radius: 9999px;
+            padding: 12px 0;
+            font-size: 1.125rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding-bottom: 20px;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #4A90E2;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone" role="region" aria-label="Phone frame with name input screen">
+        <div class="screen">
+            <div class="status-bar" role="contentinfo" aria-label="Status bar">
+                <span>3:20 PM</span>
+                <span>4G</span>
+                <span>100%</span>
+            </div>
+
+            <a href="mock.html" class="back-button" aria-label="Go back">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            </a>
+
+            <h1 class="text-3xl font-semibold mb-2">What's your name?</h1>
+            <p class="text-base mb-6">Enter the name you use in real life.</p>
+
+            <form onsubmit="handleSubmit(event)">
+                <div class="input-group">
+                    <input type="text" placeholder="First name"
+                        class="flex-1 min-w-[140px] rounded-xl border border-gray-600 bg-white text-[#444] placeholder-gray-500 px-4 py-3 text-lg font-sans focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        required />
+                    <input type="text" placeholder="Last name"
+                        class="flex-1 min-w-[140px] rounded-xl border border-gray-600 bg-white text-[#444] placeholder-gray-500 px-4 py-3 text-lg font-sans focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        required />
+                </div>
+                <button class="primary" type="submit">Next</button>
+            </form>
+
+            <div class="footer mt-6">
+                <a href="#">Find my account</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      alert("You have successfully created an account. Go back to the log in page.");
+      // Optionally redirect to login page:
+      window.location.href = "mockig.html";
+    }
+  </script>
+</html>

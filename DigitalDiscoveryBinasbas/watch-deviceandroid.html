@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Discovery for Seniors</title>
+    <link rel="shortcut icon" href="xFiles/xlogo.jpg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/watch.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header id="home">
+            <div class="header-top" data-step="1"
+                data-intro="Here you can see the Logo, Name and Menu of our website. This is what we call the HEADER.<br><br> <hr> Dinhi po makikita itun Logo, ngaran, ngan Menu hitun amun website. Tinatawag po ine natun nga HEADER">
+                <div class="logo">
+                    <img src="xFiles/xlogo.jpg" alt="Logo">
+                </div>
+                <h1>DIGITAL DISCOVERY FOR ELDERLY PEOPLE</h1>
+                <nav class="navbar" id="navbar" data-step="2"
+                    data-intro="Use this Navigation Bar to choose where you want to go in our website.<br><br> <hr> Gamita ine nga Navigation Bar para mag pili kun hain mo karuyag kumadto ha am website">
+                    <a href="user.php"><span data-step="3"
+                            data-intro="Click here when you want to go back to start.<br><br> <hr>Pinduta ine kun karuyag mo hibalik ha katinikangan."><i
+                                class="fas fa-home"></i>Home</span></a>
+                    <a href="about.html"><span data-step="4"
+                            data-intro="Click here when you want to know the developers. <br><br> <hr>Pinduta ine kun karuyag mo hibaro mahitungod han nag himo hine."><i
+                                class="fas fa-question"></i>About Us</span></a>
+                    <a href="user.php#courses"><span data-step="5"
+                            data-intro="Click here when you're ready to learn.<br><br> <hr>Pinduta ine kun karuyag mo na mag tikang mag aram."><i
+                                class="fas fa-graduation-cap"></i>Lessons</span></a>
+                </nav>
+            </div>
+        </header>
+        <a href="user_device.php" class="bttn1" title="Return to Home">
+            <button><i class="fas fa-arrow-left"></i></button>
+        </a>
+
+        <!-- Watch Video Section -->
+        <section id="watch" class="watch-video"> <!-- Container -->
+            <div class="video-wrapper">
+                <!-- Main Video -->
+                <iframe class="main-video" src="https://drive.google.com/file/d/1zHMp5uwCBTxc4hc9fVw-kcqgnKZtpqoP/preview" 
+                    width="100%" height="400" allow="autoplay"></iframe>
+                <h2 class="main-vid-title">How to use your Android Phone? (Aanhon pag gamit hit imo Android nga selpon?)</h2>
+            </div>
+            <div class="video-list-container" id="videoList"></div>
+        </section>
+
+        <!-- Description and Actions -->
+        <section class="content-section">
+            <div class="content">
+                <h3 id="title" class="title">What is Android?</h3>
+
+                <p class="english">
+                    Android is an open-source, Linux-based mobile operating system developed by Google. It powers
+                    billions of devices worldwide, including smartphones, tablets, wearables, and smart TVs. Android
+                    offers extensive customization options, allowing users to tailor their experiences. It began its
+                    journey in 2003, created by Andy Rubin and his team as a software platform for digital cameras.
+                </p>
+                <p class="waray">
+                    Anu ba itun Android? <br>
+                    An Android in usa nga open-source nga mobile operating system nga nakabase ha Linux nga gin-develop
+                    han Google. Ginagamit ini ha bilyon-bilyon nga mga device ha bug-os nga kalibutan, upod na an mga
+                    smartphone, tablet, wearable, ngan smart TV. An Android nagtutugot hin haluag nga pagpahiangay
+                    (customization), nga nagpapahimo ha mga user nga ig-angay an ira eksperyensya. Nagtikang ini han iya
+                    biyahe han 2003, nga ginbuhat ni Andy Rubin ngan han iya grupo komo usa nga software platform para
+                    ha mga digital camera.
+                </p>
+
+                <h3>Different Applications</h3>
+
+                <div class="tip">
+                    <p class="english">
+                        Message inbox where we can see the messages we want to send and receive.
+                    </p>
+                    <p class="waray">
+                        Ini an inbox han mga mensahe kun diin makikita naton an mga mensahe nga karuyag naton ipadara
+                        ngan batonon.
+                    </p>
+                    <img src="xFiles/and_1.jpg" alt="Message Inbox" class="tip-img left">
+                </div>
+                <img src="xFiles/and_2.jpg" alt="Add Contact" class="tip-img left">
+                <div class="tip">
+                    <p class="english">
+                        How to add a contact in Android phone?<br>
+                        1. Write the first name<br>
+                        2. Write the last name
+                    </p>
+                    <p class="waray">
+                        Paonan-o pagdugang hin contact ha Android nga telepono?<br>
+                        1. Isurat an primero nga ngaran<br>
+                        2. Isurat an aping nga ngaran
+                    </p>
+                </div>
+                <img src="xFiles/and_3.jpg" alt="Camera Section" class="tip-img left">
+                <div class="tip">
+                    <p class="english">
+                        This is the camera section on the Android phone.<br>
+                        1. Taking a photo on an Android phone.
+                    </p>
+                    <p class="waray">
+                        Ini an parte han kamera ha Android nga telepono.<br>
+                        1. Pagkuha hin litrato ha Android nga telepono
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Footer -->
+        <footer>
+            &copy; 2025 DIGITAL DISCOVERY FOR ELDERLY PEOPLE
+        </footer>
+
+        <!-- Script -->
+        <script src="javascript/playlistAndroid.js"></script>
+    </div>
+</body>
+
+</html>
