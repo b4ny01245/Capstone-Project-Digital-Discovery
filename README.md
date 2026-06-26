@@ -27,4 +27,7 @@ No permission is granted to copy, modify, redistribute, publish, or use any part
 
 ## Disclaimer
 
-This project is intended for educational and portfolio purposes. Unauthorized reproduction, distribution, or commercial use is prohibited without written permission from the author.
+This project is intended for educational purposes. Unauthorized reproduction, distribution, or commercial use is prohibited without written permission from the author.
+
+If you wish to see the website, Open the static version of the system.
+https://b4ny01245.github.io/digital-discovery/
