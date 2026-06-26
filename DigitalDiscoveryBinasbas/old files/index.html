@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Discovery for Seniors</title>
+    <link rel="shortcut icon" href="xFiles/xlogo.jpg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/index.css">
+    <!-- CDN (Content Delivery Network) -->
+    <!-- Intro.js CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Header -->
+        <header id="home">
+            <div class="header-top" data-step="2"
+                data-intro="Here you can see the Logo, Name and Menu of our website. This is what we call the HEADER.<br><br> <hr> Dinhi po makikita itun Logo, ngaran, ngan Menu hitun amun website. Tinatawag po ine natun nga HEADER">
+                <div class="logo">
+                    <img src="xFiles/xlogo.jpg" alt="Logo">
+                </div>
+                <h1>DIGITAL DISCOVERY FOR ELDERLY PEOPLE</h1>
+                <nav class="navbar" id="navbar" data-step="3"
+                    data-intro="Use this Navigation Bar to choose where you want to go in our website.<br><br> <hr> Gamita ine nga Navigation Bar para mag pili kun hain mo karuyag kumadto ha am website">
+                    <a href="#home"><span data-step="4"
+                            data-intro="Click here when you want to go back to start.<br><br> <hr>Pinduta ine kun karuyag mo hibalik ha katinikangan."><i
+                                class="fas fa-home"></i>Home</span></a>
+                    <a href="about.html"><span data-step="5"
+                            data-intro="Click here when you want to know the developers. <br><br> <hr>Pinduta ine kun karuyag mo hibaro mahitungod han nag himo hine."><i
+                                class="fas fa-question"></i>About Us</span></a>
+                    <a href="#courses"><span data-step="6"
+                            data-intro="Click here when you're ready to learn.<br><br> <hr>Pinduta ine kun karuyag mo na mag tikang mag aram."><i
+                                class="fas fa-graduation-cap"></i>Lessons</span></a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="home-grid" data-step="7"
+            data-intro="This is the information or explanation about our website <br><br> <hr>Asya po ine itun haliputay nga impormasyon o eksplinasyon mahitungod han amun website">
+            <div class="text">
+                <div class="bttn" data-step="1"
+                    data-intro="Here you can choose whether you want to be guided or you want to be directed to start learning. <br><br> <hr>Didi puydi ka po mag Pili kun karuyag mo mag pa alalay o kun karuyag mo deritso mag aram">
+                    <a class="button-link"><button onclick="introJs().start()">
+                            <i class="fas fa-user"></i> GUIDE ME <br> Alalayi ako
+                        </button></a>
+                    <a href="#courses" class="button-link">
+                        <button><i class="fas fa-play"></i> START LEARNING <br>Tikangi Pag-aram</button></a>
+                </div>
+                <blockquote>
+                    Digital Discovery for Elders is an interactive learning platform
+                    designed to help Filipino senior citizens build confidence, improve digital skills, and stay safe
+                    online.<br>
+                    Learn at your own pace with easy-to-use lessons made just for you.
+                </blockquote>
+                <blockquote class="waray">
+                    An Digital Discovery para ha mga elders amo an usa nga interactive nga plataporma na ginhimo para
+                    mabuligan an mga Pilipino nga senior citizen nga magka may ada kumpiyansa, mapa-uswag an ira
+                    digital nga mga abilidad, ngan magin talwas ha paggamit han internet.<br>
+                    Mag-aram ha imo kalugaringon nga
+                    oras pinaagi han gin pasayon nga mga leksyon nga gin-andam para ha imo.
+                </blockquote>
+            </div>
+            <div class="image">
+                <img src="xFiles/R.jpg" alt="Elderly couple" />
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses" class="courses" data-step="8"
+            data-intro="Here you can see the learning modules. <br>-Dinhi naman makikita an kada modyul.">
+            <div class="box-container">
+                <div class="box">
+                    <a href="cybersecurity.html" class="button-link">
+                        <img src="xFiles/x1.png" alt="Cybersecurity Icon">
+                        <span>1 video</span>
+                        <h3>Cybersecurity</h3><br>
+                        <hr>
+                        <span>Pinduta para hibaro hit Cybersecurity</span>
+                    </a>
+                </div>
+                <div class="box">
+                    <a href="device.html" class="button-link">
+                        <img src="xFiles/x3.png" alt="Device Icon">
+                        <span>2 modules</span>
+                        <h3>Device Learning</h3><br>
+                        <hr>
+                        <span>Pinduta para hibaro hit imo selpon</span>
+                    </a>
+                </div>
+                <div class="box">
+                    <a href="social.html" class="button-link">
+                        <img src="xFiles/x2.png" alt="Social Media Icon">
+                        <span>3 modules</span>
+                        <h3>Social Media Learning</h3>
+                        <hr>
+                        <span>Pinduta para hibaro hit iba-iba nga sosyal aplikasyon</span>
+                    </a>
+                </div>
+                <div class="box">
+                    <a href="onlinebanks.html" class="button-link">
+                        <img src="xFiles/x4.png" alt="Online Bank Icon">
+                        <span>2 modules</span>
+                        <h3>Online Banks</h3><br>
+                        <hr>
+                        <span>Pinduta para hibaro hit mga Banko Online</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            © 2025 DIGITAL DISCOVERY FOR ELDERLY PEOPLE
+        </footer>
+    </div>
+</body>
+
+</html>
